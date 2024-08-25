@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>replit</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+  </head>
+
+  <body>
+  <h1>Todo list</h1>
+  <div id="todos">
+    <div id="todo-1">
+      <h4>1. Take class</h4>
+      <button onclick="deleteToDo(1)">delete</button>
+    </div>
+    <div id="todo-2">
+      <h4>2. Go out to eat</h4>
+      <button onclick="deleteToDo(2)">delete</button>
+    </div>
+  </div>
+  <div>
+    <input type="text" id="inp"></input>
+    <button onclick="addToDo()">Add Todo</button>
+  </div>
+  <script>
+    let ctr = 3;
+    function deleteToDo(index) {
+    const element = document.getElementById("todo-" + index);
+    console.log(element.parentNode);
+    element.parentNode.removeChild(element);
+  }
+  function addToDo() {
+    
+    const inp = document.getElementById("inp").value;
+    const element = document.querySelector("#todos");
+    const newToDo = document.createElement("div")
+    newToDo.setAttribute("id","todo-"+ctr);
+    
+    // newToDo.innerHTML= "<h4>" + inp + '</h4><button onclick="deleteTodo(' + ctr + ')">delete</button>';
+       newToDo.innerHTML= "<h4>" + inp + "</h4><button onclick='deleteToDo(" + ctr + ")'>delete</button>";
+    ctr = ctr+1;
+    element.appendChild(newToDo);
+  }
+  </script>
+</body>
+
+</html>
