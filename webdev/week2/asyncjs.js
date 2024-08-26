@@ -13,6 +13,16 @@
 // fs.readFile("b.txt","utf-8",read);
 // console.log("Done!")
 
+// const now = new Date();
+// console.log(now.toLocaleString());
 
-const now = new Date();
-console.log(now.toLocaleString());
+function random(resolve) {
+  resolve();
+}
+
+const p = new Promise(random);
+function callback() {
+  console.log("promise succeeded");
+}
+console.log(p);
+p.then(callback);
