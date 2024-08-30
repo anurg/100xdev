@@ -23,19 +23,30 @@ const simulateRealTimeDistribution = (csvFilePath) => {
                 let processedCoupons = 0;
 
                 const rewardCategories = [
-                    { name: '1st Category', count: 1000, dailyTarget: Math.ceil(1000 / daysInScheme) },
-                    { name: '2nd Category', count: 1000, dailyTarget: Math.ceil(1000 / daysInScheme) },
-                    { name: '3rd Category', count: 1000, dailyTarget: Math.ceil(1000 / daysInScheme) },
-                    { name: '4th Category', count: 2000, dailyTarget: Math.ceil(2000 / daysInScheme) },
-                    { name: '5th Category', count: 20000, dailyTarget: Math.ceil(20000 / daysInScheme) }
+                    { name: '1st Category', count: 5, dailyTarget: 0.5 },
+                    { name: '2nd Category', count: 2, dailyTarget: 0.2 },
+                    { name: '3rd Category', count: 1000, dailyTarget: 100 },
+                    { name: '4th Category', count: 2000, dailyTarget: 200 },
+                    { name: '5th Category', count: 20000, dailyTarget: 2000 }
                 ];
 
                 const totalRewards = rewardCategories.reduce((sum, category) => sum + category.count, 0);
-                const rewardsPerDay = Math.ceil(totalRewards / daysInScheme);
 
-                // Calculate the interval for each category
+                // Prepare categories
                 rewardCategories.forEach(category => {
-                    category.interval = Math.floor(couponsPerDay / category.dailyTarget);
+                    if (category.dailyTarget < 1) {
+                        // For infrequent rewards
+                        category.isInfrequent = true;
+                        category.distributionDays = Array.from(
+                            { length: category.count },
+                            (_, i) => Math.floor(i * daysInScheme / category.count) + 1
+                        );
+                        category.nextDistributionDay = category.distributionDays.shift();
+                    } else {
+                        // For frequent rewards
+                        category.isInfrequent = false;
+                        category.interval = Math.max(1, Math.floor(couponsPerDay / category.dailyTarget));
+                    }
                 });
 
                 for (let day = 1; day <= daysInScheme; day++) {
@@ -54,12 +65,25 @@ const simulateRealTimeDistribution = (csvFilePath) => {
                         const couponNumber = coupons[processedCoupons];
                         let reward = 'Better Luck Next Time';
 
+                        // Try to distribute infrequent rewards first
                         for (const category of rewardCategories) {
-                            if (category.count > 0 && categoryCounters[category.name] >= category.interval) {
+                            if (category.isInfrequent && category.count > 0 && day === category.nextDistributionDay) {
                                 reward = category.name;
                                 category.count--;
-                                categoryCounters[category.name] = 0;
+                                category.nextDistributionDay = category.distributionDays.shift() || Infinity;
                                 break;
+                            }
+                        }
+
+                        // If no infrequent reward was distributed, try frequent rewards
+                        if (reward === 'Better Luck Next Time') {
+                            for (const category of rewardCategories) {
+                                if (!category.isInfrequent && category.count > 0 && categoryCounters[category.name] >= category.interval) {
+                                    reward = category.name;
+                                    category.count--;
+                                    categoryCounters[category.name] = 0;
+                                    break;
+                                }
                             }
                         }
 
@@ -67,20 +91,33 @@ const simulateRealTimeDistribution = (csvFilePath) => {
                         processedCoupons++;
                         dailyDistribution[reward]++;
 
-                        // Increment counters for each category
+                        // Increment counters for frequent categories
                         rewardCategories.forEach(category => {
-                            categoryCounters[category.name]++;
+                            if (!category.isInfrequent) {
+                                categoryCounters[category.name]++;
+                            }
                         });
                     }
 
                     console.log(`Day ${day} Distribution:`, dailyDistribution);
                     console.log(`Remaining rewards after Day ${day}:`, rewardCategories.map(cat => ({ name: cat.name, remaining: cat.count })));
 
+                    // Adjust intervals for remaining days
+                    const remainingDays = daysInScheme - day;
+                    if (remainingDays > 0) {
+                        rewardCategories.forEach(category => {
+                            if (!category.isInfrequent && category.count > 0) {
+                                category.interval = Math.max(1, Math.floor((couponsPerDay * remainingDays) / category.count));
+                            }
+                        });
+                    }
+
                     if (processedCoupons >= totalCoupons) break;
                 }
 
                 // Distribute any remaining rewards
-                while (processedCoupons < totalCoupons) {
+                let remainingRewardsCount = rewardCategories.reduce((sum, category) => sum + category.count, 0);
+                while (remainingRewardsCount > 0 && processedCoupons < totalCoupons) {
                     const couponNumber = coupons[processedCoupons];
                     let reward = 'Better Luck Next Time';
 
@@ -88,6 +125,7 @@ const simulateRealTimeDistribution = (csvFilePath) => {
                         if (category.count > 0) {
                             reward = category.name;
                             category.count--;
+                            remainingRewardsCount--;
                             break;
                         }
                     }
