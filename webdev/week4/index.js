@@ -240,19 +240,143 @@
 
 // //Rest and Spread Operators
 // Spread Operator
-const numbers1 = [1,2,3]
-const numbers2 = [4,5,6]
+// const numbers1 = [1,2,3]
+// const numbers2 = [4,5,6]
 
-console.log([...numbers1,...numbers2])
-const copyNumbers1 = [...numbers1]
-copyNumbers1.push(5)
-console.log(copyNumbers1)
+// console.log([...numbers1,...numbers2])
+// const copyNumbers1 = [...numbers1]
+// copyNumbers1.push(5)
+// console.log(copyNumbers1)
 
-// Rest Operator
-function sumRest (...numbers) {
-    return numbers.reduce((sum,x)=>sum+x,0)
+// // Rest Operator
+// function sumRest (...numbers) {
+//     return numbers.reduce((sum,x)=>sum+x,0)
+// }
+
+// console.log(sumRest(1,2,3,4,5,6,7))
+// const [first, second, ...rest] = [1,2,3,4,5,6,7];
+// console.log(rest);
+
+// // Promise
+// function setTimeoutPromisified(ms) {
+//     return new Promise(resolve=> {
+//        setTimeout(resolve,ms);
+//     })
+// }
+// function callback() {
+//     console.log("Promised resolved after 1 second.")
+// }
+// setTimeoutPromisified(1000).then(callback);
+
+// // Callback Hell
+// setTimeout(function () {
+//     console.log("hi");
+//     setTimeout(function() {
+//         console.log("hello!");
+//         setTimeout(function() {
+//             console.log("Hello There!")
+//         },5000)
+//     },3000)
+// },1000)
+
+// Promisified Callback hell
+
+// function setTimeoutPromisified(ms) {
+//     return new Promise(resolve=>setTimeout(resolve,ms))
+// }
+// console.log("Begin")
+// setTimeoutPromisified(1000).then(function() {
+//     console.log("hi");
+//     setTimeoutPromisified(3000).then(function() {
+//         console.log("hello");
+//         setTimeoutPromisified(5000).then(function() {
+//             console.log("hello there!")
+//         })
+//     })
+// })
+
+// setTimeoutPromisified(1000).then(function() {
+//     console.log('hi');
+//     return setTimeoutPromisified(3000)
+// }).then(function(){
+//     console.log("hello");
+//     return setTimeoutPromisified(5000)
+// }).then(function() {
+//     console.log("hello there......")
+// })
+
+// console.log("End")
+
+// // Async Await
+// function setTimeoutPromisified(ms) {
+//     return new Promise(resolve=>setTimeout(resolve,ms))
+// }
+
+// async function solve() {
+//     await setTimeoutPromisified(1000);
+//     console.log("hi");
+//     await setTimeoutPromisified(3000);
+//     console.log("hello");
+//     await setTimeoutPromisified(5000);
+//     console.log("hello there..!")
+// }
+// solve();
+
+const fs = require('fs');
+// const { resolve } = require('path');
+// function cleanFile(filepath,cb) {
+//     fs.readFile(filepath,'utf-8',function (err,data) {
+//         data = data.trim();
+//         fs.writeFile(filepath,data,function(){
+//             cb();
+//         });
+//     });
+// }
+// function onDone() {
+//     console.log("file has been cleaned!")
+// }
+// cleanFile('node.js',onDone);
+
+// async function main() {
+//     await cleanFile("a.txt");
+//     console.log("Done File cleaning!");
+// }
+// function cleanFile(filepath) {
+//     return new Promise(function (resolve) {
+//         fs.readFile(filepath,'utf-8',function(err,data) {
+//             data = data.split('\n').map(x=> x.trimStart()).join('\n');
+//             fs.writeFile(filepath,data,function() {
+//                 resolve();
+//             })
+//         })
+//     })
+// }
+
+// main()
+
+// const fs = require('fs');
+// fs.readFile('a.txt','utf-8',function(err,data) {
+//     if (err) {
+//         console.log("Error opening file.")
+//     } else {
+//         console.log(data);
+//     }
+// })
+function readFilePromisified(filepath) {
+    return new Promise( function (resolve,reject) {
+        fs.readFile(filepath,'utf-8',function(err,data) {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(data);
+            }
+        })
+    })
 }
-
-console.log(sumRest(1,2,3,4,5,6,7))
-const [first, second, ...rest] = [1,2,3,4,5,6,7];
-console.log(rest);
+function onDone(data) {
+    console.log(data);
+}
+function onError(err) {
+    console.log("Error:" + err)
+}
+readFilePromisified('1a.txt').then(onDone).catch(onError);
