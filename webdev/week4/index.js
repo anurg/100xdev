@@ -46,28 +46,213 @@
 // console.log(data)
 // console.log("File Read!")
 
-const fetchRes = fetch('https://reqres.in/api/users/', {
-    method:'POST',
-    headers: {
-        'Content-type': 'application/json',
-    },
-    body: JSON.stringify({ 
-        id: 7,
-        email: 'test@yahoo.com',
-        first_name: 'test',
-        last_name: 'test',
-        avatar: 'https://reqres.in/img/faces/1-image.jpg'
-    })
-});
-// console.log(fetchRes)
-fetchRes.then(res=>{
-    if (!res.ok) {
-        console.log("Some Error")
-    } else {
-        console.log("All Good!")
-    }
-    return res.json()}).then(x=>console.log(x))
+// const fetchRes = fetch('https://reqres.in/api/users/', {
+//     method:'POST',
+//     headers: {
+//         'Content-type': 'application/json',
+//     },
+//     body: JSON.stringify({ 
+//         id: 7,
+//         email: 'test@yahoo.com',
+//         first_name: 'test',
+//         last_name: 'test',
+//         avatar: 'https://reqres.in/img/faces/1-image.jpg'
+//     })
+// });
+// // console.log(fetchRes)
+// fetchRes.then(res=>{
+//     if (!res.ok) {
+//         console.log("Some Error")
+//     } else {
+//         console.log("All Good!")
+//     }
+//     return res.json()}).then(x=>console.log(x))
 
-console.log("Done")
+// console.log("Done")
 
-  
+/* Week 3 - Functions, Callbacks, Async jS */
+
+
+//   function sum(a,b) {
+//     return a+b;
+//   }
+
+// const sum = function (a,b) {
+//     return a+b;
+// }
+//   function minus(a,b) {
+//     return a-b;
+//   }
+//   function multiply (a,b) {
+//     return a*b;
+//   }
+//   function divide (a,b) {
+//     return a/b
+//   }
+//   function calculator (a,b,op) {
+//     return op(a,b);
+//   }
+//   console.log(calculator(4,2,sum));
+//   console.log(calculator(4,2,minus));
+//   console.log(calculator(4,2,multiply));
+//   console.log(calculator(4,2,divide));
+
+//   const fs = require('fs');
+//   const data=fs.readFile('node.js','utf-8',function (err, content){
+//     console.log(content);
+//   });
+
+// console.log(data);
+
+// setTimeout(function() {
+//     console.log("I will be printed after some delay")
+// },1000);
+// function print(x) {
+//     console.log(x);
+// };
+// const helloFn = function () {
+//     return print("Hello World!") 
+// }
+// setTimeout(helloFn,1000);
+
+// function sum(n) {
+//     let sum = 0;
+//     for (let i=0;i<=n; i++) {
+//         sum = sum+i;
+//     }
+//     return sum;
+// }
+// console.log(sum(100000));
+// console.log(sum(555000));
+// console.log(sum(666000));
+
+/* Week 4 - Promises */
+
+// class Rectangle {
+//     constructor (width, height, color) {
+//         this.width = width;
+//         this.height = height;
+//         this.color = color;
+//     }
+//     area () {
+//         return this.width * this.height;
+//     }
+//     paint () {
+//         console.log(`Rectangle is ${this.color} color`)
+//     }
+// }
+
+
+// class Circle {
+//     constructor (radius, color) {
+//         this.radius = radius;
+//         this.color = color;
+//     }
+//     area () {
+//         return this.radius * this.radius * Math.PI;
+//     }
+//     paint () {
+//         console.log(`This Circle is color ${this.color}`)
+//     }
+// }
+
+
+//   class Shape {
+//     constructor (color) {
+//         this.color = color;
+//     }
+//     paint () {
+//         console.log(`Painting shape with color ${this.color}`)
+//     }
+//     area () {
+//         throw new Error(`The area method must be implemented in the subclass.`)
+//     }
+//     getDescription () {
+//         return `This shape is of color ${this.color} `
+
+//     }
+//   }
+
+//   class Rectangle extends Shape {
+//     constructor (width, height, color) {
+//         super(color);
+//         this.width = width;
+//         this.height = height;
+        
+//     }
+//     area () {
+//         return this.width * this.height;
+//     }
+//     getDescription () {
+//         return `A Rectangle with the width ${this.width} and height ${this.height} and color ${this.color}`
+//     }
+// }
+
+// class Circle extends Shape {
+//     constructor (radius,color) {
+//         super(color);
+//         this.radius = radius;
+//     }
+//  area () {
+//     return this.radius * this.radius * Math.PI;
+//  }
+//  getDescription () {
+//     return `This is a Circle with radius ${this.radius} and color ${this.color}`;
+//  }
+// }
+
+// const rect = new Rectangle(3,4,'orange')
+// const area = rect.area();
+// console.log(area)
+// rect.paint();
+// console.log(rect.getDescription());
+
+// const circle1 = new Circle(5,'red');
+// const areaCircle = circle1.area();
+// console.log(circle1.area());
+//   circle1.paint();
+//   console.log(circle1.getDescription());
+
+// // Predefined Clasess Date, Map
+// const now = new Date()
+// console.log(now.toISOString());
+
+// const map = new Map();
+// map.set('name','Alice');
+// map.set('age',30);
+// // console.log(map.get('name'));
+// for ([key,value] of map) {
+//     console.log(`key : ${key} value: ${value}`)
+// }
+// for (const key of map.keys()) {
+//     console.log(key);
+// }
+// for (const value of map.values()) {
+//     console.log(value)
+// }
+// for (const [key,value] of map.entries()) {
+//     console.log(`key : ${key} value: ${value}`)
+// }
+
+// map.forEach((value,key)=> console.log(`${key} = ${value}`))
+// const arr = [1,2,3,4,5]
+// console.log(...arr)
+
+// //Rest and Spread Operators
+// Spread Operator
+const numbers1 = [1,2,3]
+const numbers2 = [4,5,6]
+
+console.log([...numbers1,...numbers2])
+const copyNumbers1 = [...numbers1]
+copyNumbers1.push(5)
+console.log(copyNumbers1)
+
+// Rest Operator
+function sumRest (...numbers) {
+    return numbers.reduce((sum,x)=>sum+x,0)
+}
+
+console.log(sumRest(1,2,3,4,5,6,7))
+const [first, second, ...rest] = [1,2,3,4,5,6,7];
+console.log(rest);
