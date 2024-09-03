@@ -38,20 +38,9 @@
 // });
 
 
-// http.createServer(app).listen(3000,function() {
-//     console.log("Server started at port 3000.")
-// });
-// https.createServer(app).listen(3001,function () {
-//     console.log("3001 port secure login.")
-// })
-
-const daysInScheme = 10;
-const category = {
-    count: 5,
-}
-const newArray = Array.from(
-    { length: category.count },
-    (_, i) => Math.floor( i * daysInScheme / category.count) + 1
-);
-
-console.log(newArray);
+http.createServer(app).listen(3000,function() {
+    console.log("Server started at port 3000.")
+});
+https.createServer(app).listen(3001,function () {
+    console.log("3001 port secure login.")
+})
