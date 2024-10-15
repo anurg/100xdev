@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {Fragment, useState} from 'react';
 import { PostMessage } from './Post';
 import { Card } from './Card';
 function App() {
@@ -42,10 +42,10 @@ function App() {
     }]);
   }
   return (
-    <div>
+    <Fragment>
       <button onClick={addPost}>Add Post</button>
       {postComponents} 
-    </div>
+    </Fragment>
   )
 }
 
