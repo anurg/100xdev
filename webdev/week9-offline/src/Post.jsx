@@ -1,8 +1,9 @@
 const  style = { backgroundColor: "white",  display:"flex"}
 export function PostMessage({title,time, image,subtitle, message}) {
 
-    return <div style={{width: 400, border:"1px solid black", borderRadius:10, margin:10, padding:10}}>
-            <div style={style}>
+    return <div>
+   
+     <div style={style}>
       <img src={image} style={
         { height:80,
           width: 80,

@@ -1,5 +1,6 @@
 import {useState} from 'react';
 import { PostMessage } from './Post';
+import { Card } from './Card';
 function App() {
   
 
@@ -22,13 +23,14 @@ function App() {
       message:"This is a post about a Cat who was like dogs."
   }];
   const [posts , setPosts] = useState([...posts_start]);
-  const postComponents = posts.map(post=><PostMessage 
+  const postComponents = posts.map(post=> <Card key={post.title}><PostMessage 
       title={post.title}
       time={post.time}
       image={post.image}
       subtitle={post.subtitle}
       message={post.message}
-    />
+    /> 
+    </Card> 
   )
   function addPost() {
     setPosts([...posts,{
