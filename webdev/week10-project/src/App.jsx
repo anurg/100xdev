@@ -1,61 +1,33 @@
-
-import './App.css'
-import {BrowserRouter, Routes, Route, Link, useNavigate, redirect, Outlet} from "react-router-dom"
+import { useState, useRef } from "react";
+import { ErrorBoundary } from "react-error-boundary"
 
 function App() {
+  const [counter, setCounter] = useState(0);
+  const ref = useRef();
 
-
+  function startClock() {
+     const value = setInterval(function() {
+      setCounter(c=>c+1);
+      ref.current= value;
+     }, 1000)
+  }
+  function stopClock() {
+    clearInterval(ref.current);
+  }
   return (
     <div>
-      {/* <a href='/'>Home</a>
-      <a href='/neet/online-coaching-class-11'>Class11</a>
-      <a href='/neet/online-coaching-class-12'>Class12</a> */}
-      <BrowserRouter> 
-     
-        <Routes>
-          <Route path='/' element={<Layout/>}>
-              <Route path='/neet/online-coaching-class-11' element={<Class11Program/>}/>
-              <Route path='/neet/online-coaching-class-12' element={<Class12Program/>}/>
-              <Route path='/' element={<Home/>}/>
-              <Route path='*' element={<ErrorPage/>}/>
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <ErrorBoundary fallback={<div>Something went wrong!</div>}>
+          <Counter counter={counter}/>
+      </ErrorBoundary>
+     <button onClick={startClock}>Start Clock</button>
+     <button onClick={stopClock}>Stop Clock</button>
     </div>
   )
 }
-function Layout() {
+
+function Counter(props) {
   return <div>
-      <Link to="/">Home </Link>
-      <Link to="/neet/online-coaching-class-11">Class11 </Link>
-      <Link to="/neet/online-coaching-class-12">Class12 </Link>
-    <Outlet />
-    Footer | Contact Us
-  </div>
-}
-function Class11Program() {
-  return <div>
-    Neet Program for Class 11.
-  </div>
-}
-function Class12Program() {
-  const navigate = useNavigate();
-  function redirectTo() {
-    navigate("/neet/online-coaching-class-11");
-  }
-  return <div>
-    Neet Program for Class 12.
-    <button onClick={redirectTo}>Go to Home</button>
-  </div>
-}
-function Home() {
-  return <div>
-    Home Page.
-  </div>
-}
-function ErrorPage() {
-  return <div>
-    Error Page.
+    {props.counter}
   </div>
 }
 export default App
