@@ -1,33 +1,44 @@
-import { useState, useRef } from "react";
-import { ErrorBoundary } from "react-error-boundary"
+import { useState, useContext, createContext } from "react";
+import { useBulbContext, BulbContextProvider } from "./BulbContext";
 
 function App() {
-  const [counter, setCounter] = useState(0);
-  const ref = useRef();
-
-  function startClock() {
-     const value = setInterval(function() {
-      setCounter(c=>c+1);
-      ref.current= value;
-     }, 1000)
-  }
-  function stopClock() {
-    clearInterval(ref.current);
-  }
-  return (
-    <div>
-      <ErrorBoundary fallback={<div>Something went wrong!</div>}>
-          <Counter counter={counter}/>
-      </ErrorBoundary>
-     <button onClick={startClock}>Start Clock</button>
-     <button onClick={stopClock}>Stop Clock</button>
+return <div>
+      <BulbContextProvider>
+            <Light/>
+      </BulbContextProvider>
     </div>
-  )
 }
 
-function Counter(props) {
+function Light() {
   return <div>
-    {props.counter}
+    <LightBulb />
+    <LightSwitch />
   </div>
 }
+function LightBulb() {
+  const {bulbOn} = useBulbContext();
+  return <div>
+    {bulbOn? "Bulb On": "Bulb Off"}
+  </div>
+}
+function LightSwitch() {
+  const { bulbOn, setBulbOn } = useBulbContext();
+  function Toggle() {
+    setBulbOn(bulbOn=>!bulbOn)
+  }
+  return <div>
+    <button onClick={Toggle}>Toggle bulb</button>
+  </div>
+}
+// function BulbContextProvider({children}) {
+//   const [bulbOn, setBulbOn] = useState(true);
+//   return <div>
+//     <BulbContext.Provider value={{
+//       bulbOn: bulbOn,
+//       setBulbOn: setBulbOn
+//     }}>
+//       {children}
+//   </BulbContext.Provider>
+//   </div>
+// }
 export default App
