@@ -47,3 +47,7 @@ npm create vite@latest
   - conditional rendering- using tertiary operator we can use the conditional  rendering in react. 
   - In react, JS code is written inside the {} brackets
   - 
+
+  ### Important React one liners
+  https://dev.to/nnnirajn/10-react-one-liners-every-ui-developer-should-know-c97?context=digest
+
