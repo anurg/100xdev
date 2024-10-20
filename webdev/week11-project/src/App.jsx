@@ -1,25 +1,22 @@
-import { useState } from "react";
-
-function useCounter() {
-  const [count,setCount] = useState(0);
-  function setIncreaseCount() {
-    setCount(c=>c+1);
-  }
-  return {
-    count : count,
-    setIncreaseCount: setIncreaseCount
-  }
-}
-
+import { useEffect, useState, useRef } from "react";
 
 function App() {
-    const {count, setIncreaseCount} = useCounter();
-  return (
-    <div>
-     {count}
-     <button onClick={setIncreaseCount}>Increase Count</button>
-    </div>
-  )
+  function useDebounced(originalFn) {
+    const ref = useRef();
+    const fn = ()=> {
+      clearTimeout(ref.current);
+      ref.current = setTimeout(originalFn,200);
+    }
+    return fn;
+  }
+    function searchBackEnd() {
+      fetch("api.amazon.com/search");
+    }
+    const debouncedFn = useDebounced(searchBackEnd);
+  return <div>
+   <input type="text" placeholder="Search" onChange={debouncedFn}></input>
+   
+  </div>
 }
 
 export default App
