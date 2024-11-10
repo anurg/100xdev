@@ -1,5 +1,5 @@
 {
-  "name": "week13-typescript",
+  "name": "week14-typescript",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -8,5 +8,8 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "typescript": "^5.6.3"
+  }
 }
