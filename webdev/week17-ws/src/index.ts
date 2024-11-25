@@ -16,8 +16,8 @@ const wss = new WebSocketServer({port:8080});
 wss.on('connection',function(socket) {
     console.log("User Connected!");
     socket.on("message",(e)=>{
-        if (e.toString() ==="Ping") {
-            socket.send("Pong")
-        }
+        // if (e.toString() ==="Ping") {
+            socket.send(`Response from Server: ${e.toString()}`)
+        // }
     })
 })
