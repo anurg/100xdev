@@ -1,30 +1,38 @@
-import {WebSocket, WebSocketServer} from "ws"
+import {WebSocket, WebSocketServer} from "ws";
 
-const wss = new WebSocketServer({port:8081})
+const wss = new WebSocketServer({port:8080})
 
-let allSockets:WebSocket[] = [];
+interface User {
+    socket:WebSocket,
+    room:String
+}
+let allSockets:User[] = [];
+
 wss.on("connection",(socket)=>{
-    const current_socket = socket;
-    allSockets.push(socket);
-    // Inform all that someone joined
-    allSockets.map((s)=>{
-        s.send("joined")
- })
-
-// On getting message, Broadcast to all except sender
-    socket.on("message",(data)=>{
-        console.log(data.toString())
-        allSockets.map((s)=>{
-            if (s != current_socket) {
-                s.send(data.toString())
-            } 
-    })
     
+// @ts-ignore
+    socket.on("message",(data)=>{
+        const parsedData = JSON.parse(data.toString());
+        
+        if (parsedData.type==='join') {
+            console.log(`user joined room: ${parsedData.payload.roomId}`)
+            allSockets.push({
+                socket:socket,
+                room:parsedData.payload.roomId
+            })
+        } 
+        if (parsedData.type==='chat') {
+            const userRoom = allSockets.find(x=>x.socket==socket)?.room
+            console.log(`user joined room: ${userRoom}`)
+            allSockets.map((u)=>{
+                if (u.room == userRoom) {
+                    u.socket.send(parsedData.payload.message)
+                    console.log(`message broadcasted`)
+                }
+            })
+        }
     })
     socket.on("close",()=>{
-        allSockets= allSockets.filter(s=>s!=socket) 
-        allSockets.map((s)=>{
-            s.send("Disconnected")
-        })
+        allSockets= allSockets.filter(u=>u.socket!=socket) 
     })
 })
