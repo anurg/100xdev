@@ -5,6 +5,7 @@ import './App.css'
 function App() {
  const [messages, setMessages] = useState(["Welcome to chat!","Hello"]);
  const wsRef = useRef();
+ const inpref =useRef();
 useEffect(()=>{
   const ws = new WebSocket("ws://localhost:8080")
   wsRef.current = ws;
@@ -30,13 +31,13 @@ useEffect(()=>{
         {messages.map(message=>{return <div className='bg-white text-black rounded p-1 m-1'>{message}</div>})}
       </div>
       <div className='flex flex-row'>
-        <input className='text w-full h-10 text-black' id='message'/>
+        <input className='text w-full h-10 text-black'  ref={inpref}/>
         <button className='bg-purple-600 text-white' onClick={()=>{
-            const message = document.getElementById('message')?.value;
+            // const message = document.getElementById('message')?.value;
             wsRef.current.send(JSON.stringify({
               type:"chat",
               payload:{
-                message:message
+                message:inpref.current.value
               }
             }))
         }}>Send Message</button>
