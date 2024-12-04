@@ -1,12 +1,8 @@
 "use strict";
-const displayUserProfile = function (user) {
-    console.log(`User Id: ${user.Id} User Name: ${user.name}`);
-};
-const u1 = {
-    Id: 1,
-    name: "Anurag",
-    email: "anurg@yahoo.com",
-    createdOn: new Date()
-};
-// const u2:UserProfile = u1;
-displayUserProfile(u1);
+//Initialize an empty map
+const usersMap = new Map();
+//Add users to the map using .set
+usersMap.set('abc123', { id: 'abc123', name: "Anurag" });
+usersMap.set('xyz123', { id: 'xyz123', name: "Zebra" });
+console.log(usersMap.get('xyz123'));
+usersMap.forEach(x => console.log(x.name));

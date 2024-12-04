@@ -1,11 +1,9 @@
-interface Config {
-    readonly endpoint:string;
-    readonly apikey:string;
-}
+type MyEvent = 'click'|'scroll'|'mousemove'
+type ExcludeEvent = Exclude<MyEvent,'scroll'>
 
-const config:Readonly<Config> = {
-    endpoint: 'https://api.example.com',
-    apikey: 'abcdef123456',
+const handleEvent = (event:ExcludeEvent)=>{
+    console.log(`Handling event ${event}`)
 }
-
-// config.apikey = "newKey" //Cannot assign to 'apikey' because it is a read-only property.
+handleEvent('click');
+handleEvent('mousemove')
+handleEvent('scroll') //Argument of type '"scroll"' is not assignable to parameter of type 'ExcludeEvent'.
