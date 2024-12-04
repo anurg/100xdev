@@ -1,1 +1,1 @@
-{"root":["./src/index.ts","./src/math.ts"],"version":"5.6.3"}
+{"root":["./src/calculator.ts","./src/index.ts","./src/math.ts"],"version":"5.6.3"}
