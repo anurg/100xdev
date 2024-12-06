@@ -31,11 +31,18 @@ async function getPosts(authorId:number) {
             authorId:authorId
         },
         select: {
-            author:true,
+            author:{
+                select:{
+                    name:true
+                }
+            },
             title:true,
             content:true,
             published:true,
-            
+            id:true
+        },
+        orderBy:{
+            id:'desc'
         }
     })
     console.log(posts)
