@@ -23,7 +23,9 @@ function createPost(title, content, published, authorId) {
         });
     });
 }
-// createPost("New Post","New Post, Prisma Here", true,1)
+// createPost("New Post","New Post, Prisma Here", true,2)
+// createPost("New Post","New Post, Prisma Here", true,2)
+// createPost("New Post","New Post, Prisma Here", true,2)
 function getPosts(authorId) {
     return __awaiter(this, void 0, void 0, function* () {
         const posts = yield prisma.post.findMany({
@@ -60,3 +62,5 @@ function getPostsWithAuthor(authorId) {
     });
 }
 console.log(getPostsWithAuthor(1));
+console.log(getPostsWithAuthor(2));
+console.log(getPostsWithAuthor(3));

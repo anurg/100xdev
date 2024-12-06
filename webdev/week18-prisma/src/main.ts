@@ -13,7 +13,9 @@ async function createPost(title:string,content:string,published:boolean,authorId
     })
 }
 
-// createPost("New Post","New Post, Prisma Here", true,1)
+// createPost("New Post","New Post, Prisma Here", true,2)
+// createPost("New Post","New Post, Prisma Here", true,2)
+// createPost("New Post","New Post, Prisma Here", true,2)
 
 async function getPosts(authorId:number) {
    const posts = await prisma.post.findMany({
@@ -49,3 +51,5 @@ async function getPosts(authorId:number) {
  }
 
  console.log(getPostsWithAuthor(1))
+ console.log(getPostsWithAuthor(2))
+ console.log(getPostsWithAuthor(3))
