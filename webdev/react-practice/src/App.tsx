@@ -14,20 +14,18 @@ function App() {
 
 
 function addPost(post:PostInterface) {
-  
   setPosts([...posts,post])
 }
 
+function PostDisplay(post:PostInterface, index:number) {
+  return <Post key={index} name={post.name} subtitle={post.subtitle} time={post.time} image={post.image} description={post.description} />
+}
   return (
     <div>
      <button onClick={()=>addPost(post)}>Add Post</button>
       <div style={{display:"flex", flexWrap:"wrap"}}>
       {
-        posts.map((post,index)=>{
-          
-            return <Post key={index} name={post.name} subtitle={post.subtitle} time={post.time} image={post.image} description={post.description} />
-          
-        })
+        posts.map((post,index)=>PostDisplay(post,index))
       }
       </div>
      
