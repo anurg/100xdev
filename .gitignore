@@ -7,4 +7,7 @@
 /webdev/week10-project/node_modules
 /webdev/week11-project/node_modules
 /webdev/week112-project/node_modules
-node_modules
+/webdev/week19-todo-nextjs/node_modules
+/webdev/week19-todo-nextjs/.next/
+/node_modules
+/.next/
