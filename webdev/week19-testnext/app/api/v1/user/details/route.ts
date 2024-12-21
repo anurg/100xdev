@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export function GET() {
     return NextResponse.json({
@@ -10,5 +10,13 @@ export function GET() {
             houseNumber: "21"
             }
             
+    })
+}
+
+export function POST(req:NextRequest) {
+    const data = req.json();
+    console.log(data)
+    return NextResponse.json({
+        message:"User Signed up!"
     })
 }
