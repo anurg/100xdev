@@ -1,8 +1,9 @@
-export default function Signup() {
+import Signup from "@/app/components/signup"
+export default function SignupPage() {
 
     return (
         <div>
-            Signup Page
+            <Signup />
         </div>
     )
 }
